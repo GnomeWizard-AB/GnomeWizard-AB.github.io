@@ -1,6 +1,7 @@
 import { LuBoxes, LuBriefcaseBusiness, LuGauge, LuPersonStanding, LuZap } from "react-icons/lu";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { SiAutodeskmaya, SiPatreon, SiUnity, SiUnrealengine, SiX, SiYoutube } from "react-icons/si";
+import SectionNavigation from "./section-navigation";
 import ScrollToTop from "./scroll-to-top";
 
 const aboutSkills = [
@@ -96,6 +97,7 @@ const contacts = [
 export default function Home() {
   return (
     <>
+      <SectionNavigation />
       <a className="skip-link" href="#main-content">Перейти к содержанию</a>
       <div className="scrubbar" aria-hidden="true">
         <span />
