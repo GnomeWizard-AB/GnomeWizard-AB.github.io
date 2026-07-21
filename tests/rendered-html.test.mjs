@@ -1,0 +1,147 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+async function render() {
+  return readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
+}
+
+test("static export renders the personal portfolio", async () => {
+  const html = await render();
+  assert.match(html, /^<!DOCTYPE html>/i);
+  assert.doesNotMatch(html, /\b[A-Z]:[\\/]/i);
+  assert.doesNotMatch(html, /file:\/\//i);
+  assert.match(html, /<link rel="canonical" href="https:\/\/gnomewizard\.top\/"/);
+  assert.match(html, /<title>Aleksei Besedin/);
+  assert.match(html, /href="#main">Основное<\/a>/);
+  assert.match(html, /href="#about">Обо мне<\/a>/);
+  assert.match(html, /href="#training">Обучение<\/a>/);
+  assert.doesNotMatch(html, /href="#scripts">Скрипты<\/a>/);
+  assert.match(html, /<span class="brand-mark">GW<\/span>/);
+  assert.doesNotMatch(html, /<span class="brand-mark">AB<\/span>/);
+  assert.match(html, /Aleksei<\/strong>\s*<span>Besedin<\/span>/);
+  assert.match(html, /Gnome Wizard/);
+  assert.match(html, /Lead\/Senior 3D Animator, Rigger, Tech Animator/);
+  assert.match(html, /<strong>Projects:<\/strong> Grand Outlaws, ILL,[\s\S]*Devar kids AR/);
+  assert.equal((html.match(/<iframe\b/g) ?? []).length, 2);
+  assert.match(html, /class="button button-primary video-library-button"[^>]*>Смотреть все видео/);
+  assert.match(html, /youtube-nocookie\.com\/embed\/A8YGgcA3BWM\?rel=0/);
+  assert.doesNotMatch(html, /PORTFOLIO_REEL|ANIMATION_VIDEO|00:00:00:0[12]|25 WORKS/);
+  assert.doesNotMatch(html, /reel-topline|reel-controls|play-chip|reel-line/);
+  assert.doesNotMatch(html, /GNOME WIZARD \/ FRAME 001|hero-side-label/);
+  assert.match(html, /href="#training">Консультации \/ обучение/);
+  assert.match(html, /Опыт работы/);
+  assert.match(html, /С 2016 года/);
+  assert.doesNotMatch(html, /Work Experience|Since 2016/);
+  assert.match(html, /написание скриптов на Mel/);
+  const aboutStart = html.indexOf('<section class="section about-section"');
+  const trainingStart = html.indexOf('<section class="section mentoring-section"');
+  const aboutHtml = html.slice(aboutStart, trainingStart);
+  assert.ok(aboutStart >= 0 && trainingStart > aboutStart);
+  assert.doesNotMatch(aboutHtml, /<h3>Projects<\/h3>/);
+  assert.doesNotMatch(aboutHtml, /Devar kids AR/);
+  assert.match(aboutHtml, /<svg[^>]*viewBox=/);
+  assert.doesNotMatch(aboutHtml, /About \/ Production Profile/);
+  assert.match(aboutHtml, /<span>Навыки<\/span>/);
+  assert.match(aboutHtml, /<h3>Maya<\/h3>/);
+  assert.match(aboutHtml, /<h3>Unreal Engine<\/h3>/);
+  assert.match(aboutHtml, /<h3>Руководство<\/h3>/);
+  assert.match(aboutHtml, /<h3>Motion Capture<\/h3>/);
+  assert.match(aboutHtml, /<h3>Другие инструменты<\/h3>/);
+  const skillTitles = [...aboutHtml.matchAll(/<h3>([^<]+)<\/h3>/g)].map((match) => match[1]);
+  assert.deepEqual(skillTitles, ["Maya", "Скорость", "Unreal Engine", "Руководство", "Unity", "Оптимизация", "Motion Capture", "Другие инструменты"]);
+  assert.match(aboutHtml, /геймплейную анимацию, работу с Sequencer/);
+  assert.match(aboutHtml, /Запись, чистка, улучшение\. Лицевой захват и захват тела/);
+  assert.match(aboutHtml, /<span>Социальные сети<\/span>/);
+  assert.match(aboutHtml, /href="https:\/\/www\.patreon\.com\/senioranimator"/);
+  assert.match(aboutHtml, /href="https:\/\/twitter\.com\/AlekseyMove"/);
+  assert.match(aboutHtml, /href="https:\/\/www\.linkedin\.com\/in\/alekseybesedin\/"/);
+  assert.match(aboutHtml, /href="https:\/\/www\.youtube\.com\/@alekseybesedin\/videos"/);
+  const socialLabels = [...aboutHtml.matchAll(/<strong class="about-social-label">([^<]+)<\/strong>/g)]
+    .map((match) => match[1]);
+  assert.deepEqual(socialLabels, ["Patreon", "X.COM", "LinkedIn", "YouTube"]);
+  assert.doesNotMatch(aboutHtml, /about-social-copy/);
+  const contactStart = html.indexOf('<section class="contact-section"');
+  const trainingHtml = html.slice(trainingStart, contactStart);
+  assert.ok(contactStart > trainingStart);
+  assert.match(trainingHtml, /Консультации и индивидуальное обучение <span class="keep-together">3D-анимации<\/span>/);
+  assert.doesNotMatch(trainingHtml, /Mentoring \/ Consultation|Personal production track|mentoring-signal/);
+  assert.match(trainingHtml, /особенно полезна Middle-специалистам/);
+  assert.doesNotMatch(trainingHtml, /Оба вводных занятия можно пропустить/);
+  assert.doesNotMatch(trainingHtml, />SHOW<|>FOLLOW<|>LIVE</);
+  assert.match(trainingHtml, /<div class="lesson-format"><strong>Я показываю<\/strong>/);
+  assert.match(trainingHtml, /For English speakers/);
+  assert.match(trainingHtml, /PayPal или Payoneer/);
+  assert.match(trainingHtml, /скидка 30%/);
+  assert.match(trainingHtml, /Условия возврата/);
+  assert.match(trainingHtml, /href="#contact">Обсудить <span/);
+  assert.equal((trainingHtml.match(/class="mentoring-chapter/g) ?? []).length, 4);
+  assert.doesNotMatch(html, /class="section scripts-section"|id="scripts"/);
+  assert.match(html, /Работа, консультация, обучение или вопрос о скриптах/);
+  assert.doesNotMatch(html, /—/);
+  assert.doesNotMatch(html, /<footer|© 2026 Aleksei Besedin|Gnome Wizard \/ 3D Animation/);
+  assert.match(html, /aria-label="Наверх"/);
+  assert.doesNotMatch(html, /Проекты, которые/);
+  assert.doesNotMatch(html, /Между ключевым кадром/);
+  assert.doesNotMatch(html, />Наверх ↑<\/a>/);
+});
+
+test("keeps the scroll-to-top control accessible and responsive", async () => {
+  const [control, css, layout] = await Promise.all([
+    readFile(new URL("../app/scroll-to-top.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(control, /^"use client";/);
+  assert.match(control, /window\.scrollY > 240/);
+  assert.match(control, /aria-label="Наверх"/);
+  assert.match(control, /prefers-reduced-motion: reduce/);
+  assert.match(control, /window\.scrollTo\(\{ top: 0/);
+  assert.match(css, /\.scroll-top\s*\{[\s\S]*position:\s*fixed/);
+  assert.match(css, /\.scroll-top\.is-visible/);
+  assert.match(css, /\.hero h1 \.name-line\s*\{[\s\S]*white-space:\s*nowrap/);
+  assert.match(css, /\.hero-reels\s*\{[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.video-library-button\s*\{[^}]*width:\s*220px[^}]*justify-self:\s*start/);
+  assert.match(css, /--parchment:\s*#d8b36f/);
+  assert.match(css, /--controller-red:\s*#a62d35/);
+  assert.match(css, /--controller-blue:\s*#2d5da8/);
+  assert.match(css, /--controller-gold:\s*#d59a18/);
+  assert.match(css, /\.button\s*\{[^}]*border-radius:\s*10px[^}]*clip-path:\s*none/);
+  assert.match(css, /\.button\s*>\s*span\s*\{[^}]*border-radius:\s*50%/);
+  assert.match(css, /\.button:hover::after\s*\{[^}]*translateX\(580%\)/);
+  assert.match(css, /@keyframes scrub-progress\s*\{\s*to\s*\{\s*transform:\s*scaleX\(1\)/);
+  assert.match(css, /\.scrubbar\s*\{[^}]*height:\s*14px/);
+  assert.match(css, /\.scrubbar span\s*\{[^}]*#d92d3a/);
+  assert.match(css, /\.brand-mark\s*\{[^}]*width:\s*2\.65rem[^}]*height:\s*2\.65rem[^}]*border:\s*0[^}]*background:[^}]*var\(--controller-blue\)/);
+  assert.match(css, /\.brand-mark\s*\{[^}]*text-indent:\s*-0\.12rem/);
+  assert.match(css, /\.brand\s*\{[^}]*font-size:\s*1\.2rem/);
+  assert.match(css, /\.site-nav a\s*\{[^}]*font-size:\s*1\.2rem/);
+  assert.match(css, /@media \(max-width:\s*760px\)[\s\S]*\.brand\s*\{\s*font-size:\s*\.8rem[\s\S]*\.site-nav a\s*\{\s*font-size:\s*\.8rem/);
+  assert.match(css, /\.about-section\s*\{[^}]*var\(--parchment\)/);
+  assert.match(css, /\.mentoring-section\s*\{[^}]*var\(--panel-blue\)/);
+  assert.match(css, /\.hero-actions \.button-primary\s*\{\s*width:\s*143px/);
+  assert.match(css, /\.hero-actions \.button-training\s*\{[^}]*width:\s*300px[^}]*white-space:\s*nowrap/);
+  assert.match(css, /\.hero-actions \.button-ghost\s*\{\s*width:\s*126px/);
+  assert.match(css, /\.mentoring-cta \.button\s*\{[^}]*width:\s*473px/);
+  assert.match(css, /\.mentoring-cta \.button\s*\{[^}]*font-size:\s*2rem/);
+  assert.match(css, /\.mentoring-cta \.button > span\s*\{[^}]*width:\s*2\.15rem/);
+  assert.match(css, /\.refund-note\s*\{[^}]*width:\s*100%[^}]*max-width:\s*none/);
+  assert.match(css, /\.mentoring-cta\s*\{[^}]*justify-content:\s*center[^}]*flex-direction:\s*column/);
+  assert.match(css, /\.mentoring-hero h2\s*\{[^}]*font-size:\s*clamp\(2\.2rem,\s*5vw,\s*5\.2rem\)/);
+  assert.match(css, /\.mentoring-list li::before\s*\{[^}]*color:\s*var\(--controller-blue\)/);
+  assert.match(css, /\.contact-section h2\s*\{[^}]*font-size:\s*clamp\(2\.2rem,\s*5vw,\s*5\.2rem\)/);
+  assert.match(css, /\.contact-intro\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(css, /\.mentoring-cta p\s*\{[^}]*white-space:\s*nowrap/);
+  assert.doesNotMatch(css, /\.about-skill::before\s*\{/);
+  assert.match(css, /\.about-skill-icon\s*\{[^}]*overflow:\s*visible[^}]*clip-path:\s*none/);
+  assert.doesNotMatch(layout, /next\/font/);
+  assert.match(css, /font-family:\s*"Manrope"/);
+  assert.match(css, /font-family:\s*"Play"/);
+  assert.match(css, /url\("\/fonts\/manrope-cyrillic\.woff2"\)/);
+  assert.match(css, /url\("\/fonts\/play-bold-cyrillic\.woff2"\)/);
+  assert.match(layout, /themeColor:\s*"#1b0d08"/);
+  assert.doesNotMatch(css, /\.site-footer\s*\{/);
+  assert.doesNotMatch(css, /background:\s*var\(--bone\)/);
+  assert.match(css, /@media \(max-width:\s*760px\)/);
+});
