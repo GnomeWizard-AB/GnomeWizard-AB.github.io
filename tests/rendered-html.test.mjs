@@ -57,7 +57,7 @@ test("static export renders the personal portfolio", async () => {
   assert.match(aboutHtml, /href="https:\/\/twitter\.com\/AlekseyMove"/);
   assert.match(aboutHtml, /href="https:\/\/www\.linkedin\.com\/in\/alekseybesedin\/"/);
   assert.match(aboutHtml, /href="https:\/\/www\.youtube\.com\/@alekseybesedin\/videos"/);
-  const socialLabels = [...aboutHtml.matchAll(/<strong class="about-social-label">([^<]+)<\/strong>/g)]
+  const socialLabels = [...aboutHtml.matchAll(/<strong class="about-social-label"[^>]*>([^<]+)<\/strong>/g)]
     .map((match) => match[1]);
   assert.deepEqual(socialLabels, ["Patreon", "X.COM", "LinkedIn", "YouTube"]);
   assert.doesNotMatch(aboutHtml, /about-social-copy/);
@@ -70,7 +70,7 @@ test("static export renders the personal portfolio", async () => {
   assert.doesNotMatch(trainingHtml, /Оба вводных занятия можно пропустить/);
   assert.doesNotMatch(trainingHtml, />SHOW<|>FOLLOW<|>LIVE</);
   assert.match(trainingHtml, /<div class="lesson-format"><strong>Я показываю<\/strong>/);
-  assert.match(trainingHtml, /For English speakers/);
+  assert.match(trainingHtml, /Устное обучение и консультации доступны на русском языке/);
   assert.match(trainingHtml, /PayPal или Payoneer/);
   assert.match(trainingHtml, /скидка 30%/);
   assert.match(trainingHtml, /Условия возврата/);
@@ -95,7 +95,7 @@ test("keeps the scroll-to-top control accessible and responsive", async () => {
 
   assert.match(control, /^"use client";/);
   assert.match(control, /window\.scrollY > 240/);
-  assert.match(control, /aria-label="Наверх"/);
+  assert.match(control, /aria-label=\{label\}/);
   assert.match(control, /prefers-reduced-motion: reduce/);
   assert.match(control, /window\.scrollTo\(\{ top: 0/);
   assert.match(css, /\.scroll-top\s*\{[\s\S]*position:\s*fixed/);

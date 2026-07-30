@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-export default function ScrollToTop() {
+type ScrollToTopProps = {
+  label: string;
+};
+
+export default function ScrollToTop({ label }: ScrollToTopProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -22,7 +26,7 @@ export default function ScrollToTop() {
     <button
       className={`scroll-top${visible ? " is-visible" : ""}`}
       type="button"
-      aria-label="Наверх"
+      aria-label={label}
       onClick={scrollToTop}
     >
       <span aria-hidden="true">↑</span>

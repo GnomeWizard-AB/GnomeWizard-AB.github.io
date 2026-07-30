@@ -98,7 +98,7 @@
 html {
   scroll-behavior: smooth;
   background: var(--wood-dark);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
