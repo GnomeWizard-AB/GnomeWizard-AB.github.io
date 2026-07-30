@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const cli = join(root, "node_modules", "vinext", "dist", "cli.js");
-const outputDir = join(root, "dist", "client");
+const cli = join(root, "node_modules", "next", "dist", "bin", "next");
+const outputDir = join(root, "out");
 const indexPath = join(outputDir, "index.html");
 
 const result = spawnSync(process.execPath, [cli, "build"], {
@@ -16,6 +16,10 @@ const result = spawnSync(process.execPath, [cli, "build"], {
 
 if (result.error) {
   throw result.error;
+}
+
+if (result.status !== 0) {
+  process.exit(result.status ?? 1);
 }
 
 const localizedPages = [
@@ -56,20 +60,6 @@ for (const page of localizedPages) {
   if (!html.includes(`<html lang="${page.lang}"`)) {
     throw new Error(`Static HTML for ${page.url} has the wrong language declaration`);
   }
-}
-
-if (result.status !== 0) {
-  const knownWindowsShutdownCrash =
-    process.platform === "win32" &&
-    (result.status === 3221226505 || result.status === -1073740791);
-
-  if (!knownWindowsShutdownCrash) {
-    process.exit(result.status ?? 1);
-  }
-
-  console.warn(
-    "[build-static] vinext hit its known Windows shutdown crash after export; validated output is complete.",
-  );
 }
 
 console.log(`[build-static] Validated 5 localized static pages: ${outputDir}`);

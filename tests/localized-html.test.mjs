@@ -41,7 +41,7 @@ const localizedPages = [
 ];
 
 async function readOutput(relativePath) {
-  return readFile(new URL(`../dist/client/${relativePath}`, import.meta.url), "utf8");
+  return readFile(new URL(`../out/${relativePath}`, import.meta.url), "utf8");
 }
 
 test("exports five complete localized pages", async () => {

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
-  return readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
+  return readFile(new URL("../out/index.html", import.meta.url), "utf8");
 }
 
 test("static export renders the personal portfolio", async () => {
@@ -22,7 +22,7 @@ test("static export renders the personal portfolio", async () => {
   assert.match(html, /Aleksei<\/strong>\s*<span>Besedin<\/span>/);
   assert.match(html, /Gnome Wizard/);
   assert.match(html, /Lead\/Senior 3D Animator, Rigger, Tech Animator/);
-  assert.match(html, /<strong>Projects:<\/strong> Grand Outlaws, ILL,[\s\S]*Devar kids AR/);
+  assert.match(html, /<strong>Projects:<\/strong>(?:\s|<!-- -->)*Grand Outlaws, ILL,[\s\S]*Devar kids AR/);
   assert.equal((html.match(/<iframe\b/g) ?? []).length, 2);
   assert.match(html, /class="button button-primary video-library-button"[^>]*>Смотреть все видео/);
   assert.match(html, /youtube-nocookie\.com\/embed\/A8YGgcA3BWM\?rel=0/);
@@ -64,7 +64,7 @@ test("static export renders the personal portfolio", async () => {
   const contactStart = html.indexOf('<section class="contact-section"');
   const trainingHtml = html.slice(trainingStart, contactStart);
   assert.ok(contactStart > trainingStart);
-  assert.match(trainingHtml, /Консультации и индивидуальное обучение <span class="keep-together">3D-анимации<\/span>/);
+  assert.match(trainingHtml, /Консультации и индивидуальное обучение(?:\s|<!-- -->)*<span class="keep-together">3D-анимации<\/span>/);
   assert.doesNotMatch(trainingHtml, /Mentoring \/ Consultation|Personal production track|mentoring-signal/);
   assert.match(trainingHtml, /особенно полезна Middle-специалистам/);
   assert.doesNotMatch(trainingHtml, /Оба вводных занятия можно пропустить/);
@@ -74,7 +74,7 @@ test("static export renders the personal portfolio", async () => {
   assert.match(trainingHtml, /PayPal или Payoneer/);
   assert.match(trainingHtml, /скидка 30%/);
   assert.match(trainingHtml, /Условия возврата/);
-  assert.match(trainingHtml, /href="#contact">Обсудить <span/);
+  assert.match(trainingHtml, /href="#contact">Обсудить(?:\s|<!-- -->)*<span/);
   assert.equal((trainingHtml.match(/class="mentoring-chapter/g) ?? []).length, 4);
   assert.doesNotMatch(html, /class="section scripts-section"|id="scripts"/);
   assert.match(html, /Работа, консультация, обучение или вопрос о скриптах/);
