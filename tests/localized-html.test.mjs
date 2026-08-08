@@ -49,6 +49,10 @@ test("exports five complete localized pages", async () => {
     const html = await readOutput(`${page.route}index.html`);
 
     assert.match(html, new RegExp(`<html lang="${page.lang}"`));
+    assert.match(html, /<title>Gnome Wizard<\/title>/);
+    assert.match(html, /<meta property="og:title" content="Aleksei Besedin - /);
+    assert.doesNotMatch(html, /<meta property="og:title" content="Gnome Wizard"/);
+    assert.match(html, /<link rel="icon"[^>]*href="\/favicon\.svg"[^>]*type="image\/svg\+xml"/);
     assert.match(
       html,
       new RegExp(
@@ -94,4 +98,11 @@ test("keeps language selection accessible and responsive", async () => {
   assert.match(sitemap, /hreflang="uk" href="https:\/\/gnomewizard\.top\/ua\/"/);
   assert.match(sitemap, /hreflang="x-default" href="https:\/\/gnomewizard\.top\/en\/"/);
 });
+test("uses the compact GW browser icon", async () => {
+  const favicon = await readFile(new URL("../public/favicon.svg", import.meta.url), "utf8");
 
+  assert.match(favicon, /id="gw-monogram"/);
+  assert.match(favicon, /shape-rendering="crispEdges"/);
+  assert.match(favicon, /#2D5DA8/i);
+  assert.match(favicon, /#F7E8BF/i);
+});

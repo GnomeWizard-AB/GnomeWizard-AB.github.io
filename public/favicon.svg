@@ -1,6 +1,16 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22 19.2727C22 20.779 20.779 22 19.2727 22H14.7273C13.221 22 12 20.779 12 19.2727V12H19.2727C20.779 12 22 13.221 22 14.7273V19.2727Z" fill="#68C4FF"/>
-<path d="M20 2C21.1046 2 22 2.89543 22 4V7C22 8.10457 21.1046 9 20 9H17C15.8954 9 15 8.10457 15 7V4C15 2.89543 15.8954 2 17 2H20Z" fill="#0C79D8"/>
-<path d="M7 15C8.10457 15 9 15.8954 9 17V20C9 21.1046 8.10457 22 7 22H4C2.89543 22 2 21.1046 2 20V17C2 15.8954 2.89543 15 4 15H7Z" fill="#0C79D8"/>
-<path d="M12 12H4.72727C3.22104 12 2 10.779 2 9.27273V4.72727C2 3.22104 3.22104 2 4.72727 2H9.27273C10.779 2 12 3.22104 12 4.72727V12Z" fill="#2E9EFF"/>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="gw-blue" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(22 18) rotate(48) scale(56)">
+      <stop stop-color="#78A6ED"/>
+      <stop offset="0.52" stop-color="#2D5DA8"/>
+      <stop offset="1" stop-color="#173768"/>
+    </radialGradient>
+  </defs>
+  <path d="M8 2H56L62 8V56L56 62H8L2 56V8L8 2Z" fill="#130805"/>
+  <path d="M8 0H56L64 8V54L56 62H8L0 54V8L8 0Z" fill="url(#gw-blue)"/>
+  <path d="M0 51L8 59H56L64 51V56L56 64H8L0 56V51Z" fill="#0A1B38" fill-opacity="0.72"/>
+  <g id="gw-monogram" fill="#F7E8BF" shape-rendering="crispEdges">
+    <path d="M12 16H24V20H12ZM8 20H12V40H8ZM16 28H28V32H16ZM24 32H28V40H24ZM12 40H24V44H12Z"/>
+    <path d="M36 16H40V40H36ZM52 16H56V40H52ZM44 28H48V40H44ZM40 40H44V44H40ZM48 40H52V44H48Z"/>
+  </g>
 </svg>

@@ -12,7 +12,9 @@ test("static export renders the personal portfolio", async () => {
   assert.doesNotMatch(html, /\b[A-Z]:[\\/]/i);
   assert.doesNotMatch(html, /file:\/\//i);
   assert.match(html, /<link rel="canonical" href="https:\/\/gnomewizard\.top\/"/);
-  assert.match(html, /<title>Aleksei Besedin/);
+  assert.match(html, /<title>Gnome Wizard<\/title>/);
+  assert.match(html, /<meta property="og:title" content="Aleksei Besedin - 3D-аниматор/);
+  assert.match(html, /<link rel="icon"[^>]*href="\/favicon\.svg"[^>]*type="image\/svg\+xml"/);
   assert.match(html, /href="#main">Основное<\/a>/);
   assert.match(html, /href="#about">Обо мне<\/a>/);
   assert.match(html, /href="#training">Обучение<\/a>/);

@@ -849,8 +849,12 @@ export function createLocalizedMetadata(locale: LocaleCode): Metadata {
 
   return {
     metadataBase: new URL("https://gnomewizard.top"),
-    title: copy.title,
+    title: "Gnome Wizard",
     description: copy.description,
+    icons: {
+      icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+      shortcut: ["/favicon.svg"],
+    },
     alternates: {
       canonical: path,
       languages: alternateLanguageUrls,
@@ -874,4 +878,3 @@ export function createLocalizedMetadata(locale: LocaleCode): Metadata {
     },
   };
 }
-
