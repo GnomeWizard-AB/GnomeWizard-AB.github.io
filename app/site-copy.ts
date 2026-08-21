@@ -224,7 +224,7 @@ export const siteCopy: Record<LocaleCode, SiteCopy> = {
       secondHour: "второй час",
       nextHour: "каждый следующий",
       payment:
-        "Оплата через PayPal или Payoneer. Сумма в рублях рассчитывается по актуальному курсу Google.",
+        "Оплата через PayPal или Payoneer.",
       discountPrefix: "При обучении от пяти часов действует скидка 30% на ",
       scriptsLink: "мои скрипты",
       discountSuffix: ".",
@@ -374,7 +374,7 @@ export const siteCopy: Record<LocaleCode, SiteCopy> = {
       secondHour: "second hour",
       nextHour: "each additional hour",
       payment:
-        "Payment is available through PayPal or Payoneer. Ruble prices are calculated using the current Google exchange rate.",
+        "Payment is available through PayPal or Payoneer.",
       discountPrefix: "Training packages of five hours or more include a 30% discount on ",
       scriptsLink: "my scripts",
       discountSuffix: ".",
@@ -524,7 +524,7 @@ export const siteCopy: Record<LocaleCode, SiteCopy> = {
       secondHour: "zweite Stunde",
       nextHour: "jede weitere Stunde",
       payment:
-        "Die Zahlung erfolgt über PayPal oder Payoneer. Preise in Rubel werden anhand des aktuellen Google-Wechselkurses berechnet.",
+        "Die Zahlung erfolgt über PayPal oder Payoneer.",
       discountPrefix: "Bei Trainingspaketen ab fünf Stunden erhalten Sie 30% Rabatt auf ",
       scriptsLink: "meine Skripte",
       discountSuffix: ".",
@@ -674,7 +674,7 @@ export const siteCopy: Record<LocaleCode, SiteCopy> = {
       secondHour: "друга година",
       nextHour: "кожна наступна",
       payment:
-        "Оплата через PayPal або Payoneer. Сума в рублях розраховується за актуальним курсом Google.",
+        "Оплата через PayPal або Payoneer.",
       discountPrefix: "Для навчання від п’яти годин діє знижка 30% на ",
       scriptsLink: "мої скрипти",
       discountSuffix: ".",
@@ -824,7 +824,7 @@ export const siteCopy: Record<LocaleCode, SiteCopy> = {
       secondHour: "segunda hora",
       nextHour: "cada hora adicional",
       payment:
-        "El pago se realiza mediante PayPal o Payoneer. Los importes en rublos se calculan con el tipo de cambio actual de Google.",
+        "El pago se realiza mediante PayPal o Payoneer.",
       discountPrefix: "Los paquetes de formación de cinco horas o más incluyen un 30% de descuento en ",
       scriptsLink: "mis scripts",
       discountSuffix: ".",
